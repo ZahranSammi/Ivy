@@ -1,0 +1,17 @@
+# config.toml
+
+[llm]
+provider = "openai"        # claude | openai | gemini | ollama
+model = "gpt-4o"
+api_key_env = "OPENAI_API_KEY"
+base_url = ""              # optional base URL for proxies / local providers
+
+[mcp]
+transport = "stdio"        # stdio | sse
+expose_active_tools = true
+
+[engine]
+rate_limit_rps = 50
+request_delay_ms = 200
+request_timeout_s = 10
+path = "../engine/target/release/engine"

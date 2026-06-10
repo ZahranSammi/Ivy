@@ -1,0 +1,8 @@
+.env
+mcp_server/.env
+target/
+engine/target/
+node_modules/
+dist/
+*.db
+logs/
