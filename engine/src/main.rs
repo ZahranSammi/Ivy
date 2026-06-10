@@ -1,4 +1,4 @@
-use std::net::{IpAddr, SocketAddr, ToSocketAddrs};
+use std::net::{IpAddr, SocketAddr};
 use std::time::Duration;
 use tokio::net::TcpStream;
 use tokio::time::timeout;
@@ -169,15 +169,27 @@ async fn main() {
     // For local testing safety, we only scan top ports.
     let target_ports = vec![80, 443, 8080, 22, 8000, 3000]; // limited set for speed & safety
 
-    let mut resolved_ips: Vec<IpAddr> = Vec::new();
+    let mut lookup_tasks = Vec::new();
     for sub in &detected_subdomains {
         if sub.starts_with('*') {
             continue;
         }
         let socket_str = format!("{}:80", sub);
-        if let Ok(addrs) = socket_str.to_socket_addrs() {
-            for addr in addrs {
-                let ip = addr.ip();
+        lookup_tasks.push(tokio::spawn(async move {
+            let mut ips = Vec::new();
+            if let Ok(addrs) = tokio::net::lookup_host(&socket_str).await {
+                for addr in addrs {
+                    ips.push(addr.ip());
+                }
+            }
+            ips
+        }));
+    }
+
+    let mut resolved_ips: Vec<IpAddr> = Vec::new();
+    for task in lookup_tasks {
+        if let Ok(ips) = task.await {
+            for ip in ips {
                 if !resolved_ips.contains(&ip) {
                     resolved_ips.push(ip);
                 }
@@ -187,7 +199,9 @@ async fn main() {
 
     // Fallback if no subdomains resolved to IPs
     if resolved_ips.is_empty() {
-        if let Ok(addrs) = format!("{}:80", args.domain).to_socket_addrs() {
+        let socket_str = format!("{}:80", args.domain);
+        let addrs_res = tokio::net::lookup_host(&socket_str).await;
+        if let Ok(addrs) = addrs_res {
             for addr in addrs {
                 resolved_ips.push(addr.ip());
             }
