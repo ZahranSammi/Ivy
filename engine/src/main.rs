@@ -1,11 +1,10 @@
 use std::net::{IpAddr, SocketAddr, ToSocketAddrs};
-use std::time::{Duration, Instant};
+use std::time::Duration;
 use tokio::net::TcpStream;
 use tokio::time::timeout;
 use serde::{Deserialize, Serialize};
 use schemars::JsonSchema;
 use clap::Parser;
-use uuid::Uuid;
 use chrono::Utc;
 
 #[derive(Parser, Debug)]
@@ -170,23 +169,18 @@ async fn main() {
     // For local testing safety, we only scan top ports.
     let target_ports = vec![80, 443, 8080, 22, 8000, 3000]; // limited set for speed & safety
 
-    let mut resolved_ips = Vec::new();
+    let mut resolved_ips: Vec<IpAddr> = Vec::new();
     for sub in &detected_subdomains {
         if sub.starts_with('*') {
             continue;
         }
         let socket_str = format!("{}:80", sub);
-        match socket_str.to_socket_addrs() {
-            Ok(addrs) => {
-                for addr in addrs {
-                    let ip = addr.ip();
-                    if !resolved_ips.contains(&ip) {
-                        resolved_ips.push(ip);
-                    }
+        if let Ok(addrs) = socket_str.to_socket_addrs() {
+            for addr in addrs {
+                let ip = addr.ip();
+                if !resolved_ips.contains(&ip) {
+                    resolved_ips.push(ip);
                 }
-            }
-            Err(_) => {
-                // Ignore resolve failures for wildcards or non-existent subdomains
             }
         }
     }
@@ -200,18 +194,23 @@ async fn main() {
         }
     }
 
-    for ip in resolved_ips {
-        let ip_str = ip.to_string();
-        let mut host_ports = Vec::new();
+    let mut scan_tasks = Vec::new();
 
+    for ip in resolved_ips.clone() {
         for port in &target_ports {
-            let socket_addr = SocketAddr::new(ip, *port);
-            let check = timeout(Duration::from_millis(300), TcpStream::connect(&socket_addr)).await;
-            
-            match check {
-                Ok(Ok(_stream)) => {
-                    host_ports.push(Port {
-                        number: *port,
+            let port = *port;
+            let ip_str = ip.to_string();
+            scan_tasks.push(tokio::spawn(async move {
+                let socket_addr = SocketAddr::new(ip, port);
+                let check = timeout(Duration::from_millis(300), TcpStream::connect(&socket_addr)).await;
+                
+                let mut found_port = None;
+                let mut found_service = None;
+                let mut found_exposed_files = Vec::new();
+
+                if let Ok(Ok(_stream)) = check {
+                    found_port = Some(Port {
+                        number: port,
                         state: "open".to_string(),
                         protocol: "tcp".to_string(),
                     });
@@ -219,7 +218,7 @@ async fn main() {
                     // Add to service detection
                     let mut service = Service {
                         host: ip_str.clone(),
-                        port: *port,
+                        port,
                         name: Some(match port {
                             80 | 8080 | 8000 | 3000 => "http".to_string(),
                             443 => "https".to_string(),
@@ -232,8 +231,8 @@ async fn main() {
                     };
 
                     // If HTTP/HTTPS port, let's probe it
-                    if *port == 80 || *port == 443 || *port == 8080 || *port == 8000 || *port == 3000 {
-                        let proto = if *port == 443 { "https" } else { "http" };
+                    if port == 80 || port == 443 || port == 8080 || port == 8000 || port == 3000 {
+                        let proto = if port == 443 { "https" } else { "http" };
                         let client = reqwest::Client::builder()
                             .timeout(Duration::from_secs(3))
                             .danger_accept_invalid_certs(true)
@@ -260,7 +259,7 @@ async fn main() {
                                                 .and_then(|v| v.to_str().ok())
                                                 .and_then(|v| v.parse::<i64>().ok())
                                                 .unwrap_or(0);
-                                            result.findings.exposed_files.push(ExposedFile {
+                                            found_exposed_files.push(ExposedFile {
                                                 url: file_url.clone(),
                                                 path: path.to_string(),
                                                 http_status: status,
@@ -272,18 +271,41 @@ async fn main() {
                             }
                         }
                     }
-
-                    result.findings.services.push(service);
+                    found_service = Some(service);
                 }
-                _ => {
-                    // Closed or timed out
+                (ip_str, found_port, found_service, found_exposed_files)
+            }));
+        }
+    }
+
+    let mut scan_results = Vec::new();
+    for task in scan_tasks {
+        if let Ok(res) = task.await {
+            scan_results.push(res);
+        }
+    }
+
+    for ip in resolved_ips {
+        let ip_str = ip.to_string();
+        let mut host_ports = Vec::new();
+
+        for (res_ip_str, found_port, found_service, exposed_files) in &scan_results {
+            if res_ip_str == &ip_str {
+                if let Some(port) = found_port {
+                    host_ports.push(port.clone());
+                }
+                if let Some(service) = found_service {
+                    result.findings.services.push(service.clone());
+                }
+                for file in exposed_files {
+                    result.findings.exposed_files.push(file.clone());
                 }
             }
         }
 
         result.findings.hosts.push(Host {
             ip: ip_str,
-            asn: None, // ASN logic optional / mock
+            asn: None,
             ports: host_ports,
         });
     }
