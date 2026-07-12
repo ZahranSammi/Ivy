@@ -1,4 +1,4 @@
-# 🎯 Dev B (Co-Dev): Milestones & FR Tracker
+# 🎯 Dev B (Naufal): Milestones & FR Tracker
 
 Dokumen ini memetakan ke-15 Functional Requirements (FR) yang menjadi tanggung jawab **Dev B** (Platform & Infrastructure) ke dalam urutan pengerjaan (Milestones) yang logis. Setiap milestone membangun infrastruktur dari dasar (API) hingga UI interaktif.
 

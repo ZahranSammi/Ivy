@@ -35,7 +35,7 @@ Jantung aplikasi yang memastikan keamanan dan akurasi logika OSINT.
 
 ---
 
-## 🦾 Developer 2: Platform & Infrastructure Engineer
+## 🦾 Developer 2: Platform & Infrastructure Engineer (Naufal)
 
 Fokus pada "Otot" dan "Wajah" aplikasi: infrastruktur web, API server, UI/UX, dan pembungkus alat (Docker wrappers) agar sistem bisa dioperasikan. Kode yang disentuh meliputi Next.js (`frontend/`), Axum (`ivy-server`), dan Docker (`ivy-docker`, `tools/`).
 
@@ -73,4 +73,4 @@ Karena arsitektur Rust kita sudah dipisah menjadi **Crates (Workspace)**, konfli
 
 Area kerja sangat terisolasi:
 - **Area Dev 1 (Zahra)**: `backend/ivy-core/`, `backend/ivy-mcp/`, `backend/ivy-db/src/neo4j/`
-- **Area Dev 2 (Co-Dev)**: `backend/ivy-server/`, `frontend/`, `backend/ivy-docker/`, `tools/`
+- **Area Dev 2 (Naufal)**: `backend/ivy-server/`, `frontend/`, `backend/ivy-docker/`, `tools/`
