@@ -1,0 +1,22 @@
+[package]
+name = "ivy-db"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+ivy-core = { workspace = true }
+
+tokio = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+uuid = { workspace = true }
+chrono = { workspace = true }
+thiserror = { workspace = true }
+async-trait = { workspace = true }
+tracing = { workspace = true }
+
+# DB Drivers
+sqlx = { workspace = true }
+neo4rs = { workspace = true }
+redis = { workspace = true }
