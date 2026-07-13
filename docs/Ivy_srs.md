@@ -337,11 +337,11 @@ Ivy adalah sistem **standalone self-hosted** yang terdiri dari:
 | **Prasyarat** | FR-007 |
 
 **Acceptance Criteria:**
-- [ ] User bisa bertanya tentang hasil scan (e.g., "berapa subdomain yang ditemukan?")
-- [ ] User bisa memberikan instruksi tambahan (e.g., "scan port 443 pada semua subdomain")
-- [ ] AI bisa menjalankan tools tambahan berdasarkan instruksi user
-- [ ] Chat history disimpan per-project
-- [ ] User bisa query graph dengan bahasa natural (e.g., "tampilkan semua service Apache")
+- [x] User bisa bertanya tentang hasil scan (e.g., "berapa subdomain yang ditemukan?")
+- [x] User bisa memberikan instruksi tambahan (e.g., "scan port 443 pada semua subdomain")
+- [x] AI bisa menjalankan tools tambahan berdasarkan instruksi user
+- [x] Chat history disimpan per-project
+- [x] User bisa query graph dengan bahasa natural (e.g., "tampilkan semua service Apache")
 
 ---
 

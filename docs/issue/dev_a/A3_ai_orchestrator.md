@@ -8,6 +8,7 @@ Tanggung jawab Developer A (Zahra) untuk menghidupkan AI menggunakan protokol MC
 - **FR-008**: AI Recon Planning (Prompt & JSON Output)
 - **FR-009**: MCP Tool Execution (Mock protocol loop)
 - **FR-010**: AI Result Correlation (Graph mapping)
+- **FR-011**: Natural Language Interaction (Chat to Graph)
 - **FR-024**: Kill Switch (Cancellation Token/Signal)
 
 ## Tasks
@@ -15,6 +16,7 @@ Tanggung jawab Developer A (Zahra) untuk menghidupkan AI menggunakan protokol MC
 - [x] Buat prompt dan logika agentic untuk menyusun Recon Planning berdasarkan target awal (FR-008).
 - [x] Integrasikan eksekusi *tool* menggunakan Model Context Protocol (MCP) (FR-009).
 - [x] Buat sistem korelasi hasil eksekusi tool untuk memetakan temuan ke model graf (FR-010).
+- [x] Buat interaksi chat natural language yang bisa menjawab pertanyaan, memicu tool tambahan, dan query graph (FR-011).
 - [ ] Terapkan kapabilitas *Kill Switch* menggunakan cancellation token agar proses pemindaian dapat dihentikan (FR-024).
 
 ## Acceptance Criteria

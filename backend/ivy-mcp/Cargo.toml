@@ -15,7 +15,5 @@ thiserror = { workspace = true }
 async-trait = { workspace = true }
 anyhow = { workspace = true }
 tracing = { workspace = true }
-
-[dev-dependencies]
 uuid = { workspace = true }
 chrono = { workspace = true }
