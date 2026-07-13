@@ -281,12 +281,12 @@ Ivy adalah sistem **standalone self-hosted** yang terdiri dari:
 | **Prasyarat** | FR-006, FR-007 |
 
 **Acceptance Criteria:**
-- [ ] AI menghasilkan execution plan dalam format structured (JSON)
-- [ ] Plan berisi: tool name, parameters, execution order, dependencies
-- [ ] Plan mematuhi scope configuration (tidak include tools di luar scope)
+- [x] AI menghasilkan execution plan dalam format structured (JSON)
+- [x] Plan berisi: tool name, parameters, execution order, dependencies
+- [x] Plan mematuhi scope configuration (tidak include tools di luar scope)
 - [ ] Plan ditampilkan ke user sebelum eksekusi (review mode)
 - [ ] User dapat mengedit plan sebelum menjalankan
-- [ ] AI mempertimbangkan intensity level saat memilih tools
+- [x] AI mempertimbangkan intensity level saat memilih tools
 
 #### FR-009: MCP Tool Execution
 
@@ -302,9 +302,9 @@ Ivy adalah sistem **standalone self-hosted** yang terdiri dari:
 **Acceptance Criteria:**
 - [ ] Setiap tool di-wrap sebagai MCP Tool dengan input/output schema
 - [ ] Tools berjalan di Docker container terisolasi
-- [ ] Timeout configurable per-tool (default: 300 detik)
+- [x] Timeout configurable per-tool (default: 300 detik)
 - [ ] Output di-stream real-time ke frontend via WebSocket
-- [ ] Error handling: retry 1x, lalu skip dan lanjut ke tool berikutnya
+- [x] Error handling: retry 1x, lalu skip dan lanjut ke tool berikutnya
 - [ ] Resource limits per container: max 2GB RAM, 1 CPU core
 
 #### FR-010: AI Result Correlation
@@ -319,11 +319,11 @@ Ivy adalah sistem **standalone self-hosted** yang terdiri dari:
 | **Prasyarat** | FR-009 (minimal 1 tool complete) |
 
 **Acceptance Criteria:**
-- [ ] AI menghubungkan temuan yang overlap (e.g., subdomain dari Amass + Subfinder → deduplicate)
-- [ ] AI mengidentifikasi relasi antar-entitas (subdomain → IP → port → service)
-- [ ] AI memberikan confidence score per finding (0.0 - 1.0)
-- [ ] AI memfilter potential false positives
-- [ ] Hasil korelasi disimpan ke graph database
+- [x] AI menghubungkan temuan yang overlap (e.g., subdomain dari Amass + Subfinder → deduplicate)
+- [x] AI mengidentifikasi relasi antar-entitas (subdomain → IP → port → service)
+- [x] AI memberikan confidence score per finding (0.0 - 1.0)
+- [x] AI memfilter potential false positives
+- [x] Hasil korelasi disimpan ke graph database
 
 #### FR-011: Natural Language Interaction
 
@@ -337,11 +337,11 @@ Ivy adalah sistem **standalone self-hosted** yang terdiri dari:
 | **Prasyarat** | FR-007 |
 
 **Acceptance Criteria:**
-- [ ] User bisa bertanya tentang hasil scan (e.g., "berapa subdomain yang ditemukan?")
-- [ ] User bisa memberikan instruksi tambahan (e.g., "scan port 443 pada semua subdomain")
-- [ ] AI bisa menjalankan tools tambahan berdasarkan instruksi user
-- [ ] Chat history disimpan per-project
-- [ ] User bisa query graph dengan bahasa natural (e.g., "tampilkan semua service Apache")
+- [x] User bisa bertanya tentang hasil scan (e.g., "berapa subdomain yang ditemukan?")
+- [x] User bisa memberikan instruksi tambahan (e.g., "scan port 443 pada semua subdomain")
+- [x] AI bisa menjalankan tools tambahan berdasarkan instruksi user
+- [x] Chat history disimpan per-project
+- [x] User bisa query graph dengan bahasa natural (e.g., "tampilkan semua service Apache")
 
 ---
 
