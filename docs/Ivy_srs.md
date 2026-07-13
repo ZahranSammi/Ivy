@@ -281,12 +281,12 @@ Ivy adalah sistem **standalone self-hosted** yang terdiri dari:
 | **Prasyarat** | FR-006, FR-007 |
 
 **Acceptance Criteria:**
-- [ ] AI menghasilkan execution plan dalam format structured (JSON)
-- [ ] Plan berisi: tool name, parameters, execution order, dependencies
-- [ ] Plan mematuhi scope configuration (tidak include tools di luar scope)
+- [x] AI menghasilkan execution plan dalam format structured (JSON)
+- [x] Plan berisi: tool name, parameters, execution order, dependencies
+- [x] Plan mematuhi scope configuration (tidak include tools di luar scope)
 - [ ] Plan ditampilkan ke user sebelum eksekusi (review mode)
 - [ ] User dapat mengedit plan sebelum menjalankan
-- [ ] AI mempertimbangkan intensity level saat memilih tools
+- [x] AI mempertimbangkan intensity level saat memilih tools
 
 #### FR-009: MCP Tool Execution
 
