@@ -319,11 +319,11 @@ Ivy adalah sistem **standalone self-hosted** yang terdiri dari:
 | **Prasyarat** | FR-009 (minimal 1 tool complete) |
 
 **Acceptance Criteria:**
-- [ ] AI menghubungkan temuan yang overlap (e.g., subdomain dari Amass + Subfinder → deduplicate)
-- [ ] AI mengidentifikasi relasi antar-entitas (subdomain → IP → port → service)
-- [ ] AI memberikan confidence score per finding (0.0 - 1.0)
-- [ ] AI memfilter potential false positives
-- [ ] Hasil korelasi disimpan ke graph database
+- [x] AI menghubungkan temuan yang overlap (e.g., subdomain dari Amass + Subfinder → deduplicate)
+- [x] AI mengidentifikasi relasi antar-entitas (subdomain → IP → port → service)
+- [x] AI memberikan confidence score per finding (0.0 - 1.0)
+- [x] AI memfilter potential false positives
+- [x] Hasil korelasi disimpan ke graph database
 
 #### FR-011: Natural Language Interaction
 
