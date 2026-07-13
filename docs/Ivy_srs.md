@@ -256,7 +256,8 @@ Ivy adalah sistem **standalone self-hosted** yang terdiri dari:
 | Atribut | Detail |
 |---------|--------|
 | **ID** | FR-007 |
-| **Prioritas** | High |
+| **Prioritas** | High |+
+
 | **Deskripsi** | User dapat memilih dan mengkonfigurasi LLM provider |
 | **Input** | Provider type, API key, model name, endpoint URL |
 | **Output** | LLM connection object |
