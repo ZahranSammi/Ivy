@@ -302,9 +302,9 @@ Ivy adalah sistem **standalone self-hosted** yang terdiri dari:
 **Acceptance Criteria:**
 - [ ] Setiap tool di-wrap sebagai MCP Tool dengan input/output schema
 - [ ] Tools berjalan di Docker container terisolasi
-- [ ] Timeout configurable per-tool (default: 300 detik)
+- [x] Timeout configurable per-tool (default: 300 detik)
 - [ ] Output di-stream real-time ke frontend via WebSocket
-- [ ] Error handling: retry 1x, lalu skip dan lanjut ke tool berikutnya
+- [x] Error handling: retry 1x, lalu skip dan lanjut ke tool berikutnya
 - [ ] Resource limits per container: max 2GB RAM, 1 CPU core
 
 #### FR-010: AI Result Correlation

@@ -13,7 +13,7 @@ Tanggung jawab Developer A (Zahra) untuk menghidupkan AI menggunakan protokol MC
 ## Tasks
 - [ ] Implementasikan abstraksi provider LLM agar mudah berganti antara Gemini atau Claude (FR-007).
 - [x] Buat prompt dan logika agentic untuk menyusun Recon Planning berdasarkan target awal (FR-008).
-- [ ] Integrasikan eksekusi *tool* menggunakan Model Context Protocol (MCP) (FR-009).
+- [x] Integrasikan eksekusi *tool* menggunakan Model Context Protocol (MCP) (FR-009).
 - [ ] Buat sistem korelasi hasil eksekusi tool untuk memetakan temuan ke model graf (FR-010).
 - [ ] Terapkan kapabilitas *Kill Switch* menggunakan cancellation token agar proses pemindaian dapat dihentikan (FR-024).
 
