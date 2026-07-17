@@ -1,0 +1,14 @@
+ {
+      "name": "subfinder",
+      "description": "Menemukan subdomain dari domain target secara pasif menggunakan sumber publik.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "domain": {
+          "type": "string",
+          "description": "Domain utama yang ingin dicari subdomainnya (contoh: google.com)"    
+          }
+        },
+        "required": ["domain"]
+      }
+    }
