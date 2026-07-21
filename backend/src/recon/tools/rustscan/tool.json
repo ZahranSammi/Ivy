@@ -1,0 +1,14 @@
+{
+      "name": "rustscan",
+      "description": "Melakukan port scanning super cepat pada target IP atau domain untuk menemukan port yang terbuka.",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "addresses": {
+          "type": "string",
+          "description": "IP Address atau domain target yang akan di-scan (contoh: '192.168.1.1' atau 'api.target.com')"
+          }
+        },
+        "required": ["addresses"]
+      }
+    }
