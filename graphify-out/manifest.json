@@ -1,0 +1,172 @@
+{
+  ".claude/settings.local.json": {
+    "mtime": 1785140901.5927765,
+    "ast_hash": "99796c18ba791498cb3652188be592c7",
+    "semantic_hash": "99796c18ba791498cb3652188be592c7"
+  },
+  "apps/frontend/package.json": {
+    "mtime": 1785141309.6798086,
+    "ast_hash": "dc65b87589050fcb3b2e64e553a7f395",
+    "semantic_hash": "dc65b87589050fcb3b2e64e553a7f395"
+  },
+  "apps/frontend/src/App.vue": {
+    "mtime": 1785140976.1025293,
+    "ast_hash": "4301e5c87088018d5ef01ca1541b4208",
+    "semantic_hash": "4301e5c87088018d5ef01ca1541b4208"
+  },
+  "apps/frontend/src/components/AppHeader.vue": {
+    "mtime": 1785141078.6069984,
+    "ast_hash": "b043ea4fbbe60bc08fbcadd42d6dc874",
+    "semantic_hash": "b043ea4fbbe60bc08fbcadd42d6dc874"
+  },
+  "apps/frontend/src/components/NavRail.vue": {
+    "mtime": 1785141087.3132322,
+    "ast_hash": "dad5e35160bb25b68e79f50ee1786542",
+    "semantic_hash": "dad5e35160bb25b68e79f50ee1786542"
+  },
+  "apps/frontend/src/components/graph/GraphSvg.vue": {
+    "mtime": 1785142225.2579527,
+    "ast_hash": "7a3b50c8a958d5a8b3fba637eaf231d3",
+    "semantic_hash": "7a3b50c8a958d5a8b3fba637eaf231d3"
+  },
+  "apps/frontend/src/components/graph/Legend.vue": {
+    "mtime": 1785141098.8857617,
+    "ast_hash": "21241cba0f95977315f5480936ea59d6",
+    "semantic_hash": "21241cba0f95977315f5480936ea59d6"
+  },
+  "apps/frontend/src/components/graph/NodeInspector.vue": {
+    "mtime": 1785141211.2891507,
+    "ast_hash": "f305dfd86814dbd72f3abdf151a141eb",
+    "semantic_hash": "f305dfd86814dbd72f3abdf151a141eb"
+  },
+  "apps/frontend/src/components/graph/ScanProgressCard.vue": {
+    "mtime": 1785141108.1025949,
+    "ast_hash": "96622255ff7267e2390ec654d072b134",
+    "semantic_hash": "96622255ff7267e2390ec654d072b134"
+  },
+  "apps/frontend/src/components/graph/ZoomControls.vue": {
+    "mtime": 1785141113.7090232,
+    "ast_hash": "b5833a2cfcbb22000290eb67ba3b7bf2",
+    "semantic_hash": "b5833a2cfcbb22000290eb67ba3b7bf2"
+  },
+  "apps/frontend/src/data/graph-data.ts": {
+    "mtime": 1785141056.8810515,
+    "ast_hash": "14840ead03373c89f22fc360282adad3",
+    "semantic_hash": "14840ead03373c89f22fc360282adad3"
+  },
+  "apps/frontend/src/lib/api.ts": {
+    "mtime": 1785156337.618114,
+    "ast_hash": "79385e31c1ba3d6a1b6f0b4630e07633",
+    "semantic_hash": "79385e31c1ba3d6a1b6f0b4630e07633"
+  },
+  "apps/frontend/src/main.ts": {
+    "mtime": 1785140967.701903,
+    "ast_hash": "288ab84d409ae93acb0588f9fff731a4",
+    "semantic_hash": "288ab84d409ae93acb0588f9fff731a4"
+  },
+  "apps/frontend/src/types/api/graph.ts": {
+    "mtime": 1785156329.518417,
+    "ast_hash": "373a642f5b47091024e59001a8152002",
+    "semantic_hash": "373a642f5b47091024e59001a8152002"
+  },
+  "apps/frontend/src/types/api/llm.ts": {
+    "mtime": 1785156323.39195,
+    "ast_hash": "80b07c0f24f3186a4684efbc5ffc50df",
+    "semantic_hash": "80b07c0f24f3186a4684efbc5ffc50df"
+  },
+  "apps/frontend/src/types/api/scan.ts": {
+    "mtime": 1785156319.3418407,
+    "ast_hash": "a2d2f7e7c89b57b1f046ba84e18d54ce",
+    "semantic_hash": "a2d2f7e7c89b57b1f046ba84e18d54ce"
+  },
+  "apps/frontend/src/types/api/target.ts": {
+    "mtime": 1785156314.002427,
+    "ast_hash": "de57c717b22b48cdca1092b4478b2a66",
+    "semantic_hash": "de57c717b22b48cdca1092b4478b2a66"
+  },
+  "apps/frontend/src/types/graph.ts": {
+    "mtime": 1785141186.950313,
+    "ast_hash": "162b5fcd2f0b00ce86822d2f0f095d7a",
+    "semantic_hash": "162b5fcd2f0b00ce86822d2f0f095d7a"
+  },
+  "apps/frontend/src/views/GraphCanvasView.vue": {
+    "mtime": 1785141241.0096624,
+    "ast_hash": "3ce3595900c7eb05e909598ce5264605",
+    "semantic_hash": "3ce3595900c7eb05e909598ce5264605"
+  },
+  "apps/frontend/src/vite-env.d.ts": {
+    "mtime": 1785156346.6631331,
+    "ast_hash": "9d4f5a75f439c52d44df7f23616b5ead",
+    "semantic_hash": "9d4f5a75f439c52d44df7f23616b5ead"
+  },
+  "apps/frontend/tsconfig.app.json": {
+    "mtime": 1785140944.440235,
+    "ast_hash": "1c3157466bdbe5a32f1f95a5cecf3994",
+    "semantic_hash": "1c3157466bdbe5a32f1f95a5cecf3994"
+  },
+  "apps/frontend/tsconfig.json": {
+    "mtime": 1785140940.3961082,
+    "ast_hash": "a3d39fa780ebff65444de257f291ce6c",
+    "semantic_hash": "a3d39fa780ebff65444de257f291ce6c"
+  },
+  "apps/frontend/tsconfig.node.json": {
+    "mtime": 1785140947.6236398,
+    "ast_hash": "48c6f701cd3de01bdacff97ad8d854c2",
+    "semantic_hash": "48c6f701cd3de01bdacff97ad8d854c2"
+  },
+  "apps/frontend/vite.config.ts": {
+    "mtime": 1785210808.3405857,
+    "ast_hash": "591cabe5e390ffeeb26569411bee338a",
+    "semantic_hash": "591cabe5e390ffeeb26569411bee338a"
+  },
+  ".agents/rules/engineering-judgment.md": {
+    "mtime": 1783934011.6889539,
+    "ast_hash": "51e180132f077d3ec5c2ffe6038944c4",
+    "semantic_hash": "51e180132f077d3ec5c2ffe6038944c4"
+  },
+  ".agents/rules/git-workflow.md": {
+    "mtime": 1783939827.138786,
+    "ast_hash": "a8f7ffe4df6206291ec9fd87d0c19cd0",
+    "semantic_hash": "a8f7ffe4df6206291ec9fd87d0c19cd0"
+  },
+  ".agents/rules/overview.md": {
+    "mtime": 1784600142.4801095,
+    "ast_hash": "1a272a9a8293f3ddd304129f57eecc1d",
+    "semantic_hash": "1a272a9a8293f3ddd304129f57eecc1d"
+  },
+  "CLAUDE.md": {
+    "mtime": 1784551321.0826304,
+    "ast_hash": "cc006029ef2e5e749a9b3494822bf559",
+    "semantic_hash": "cc006029ef2e5e749a9b3494822bf559"
+  },
+  "README.md": {
+    "mtime": 1783947878.344632,
+    "ast_hash": "9ef6ec0edfb3f93e79e68e55b69a2c24",
+    "semantic_hash": "9ef6ec0edfb3f93e79e68e55b69a2c24"
+  },
+  "apps/frontend/index.html": {
+    "mtime": 1785140952.89549,
+    "ast_hash": "dbdc0539a80bd77fa854312276c35b66",
+    "semantic_hash": "dbdc0539a80bd77fa854312276c35b66"
+  },
+  "docs/Ivy_prd.md": {
+    "mtime": 1785156303.9640813,
+    "ast_hash": "d8943b24a083d6f80df333c98398a38f",
+    "semantic_hash": "d8943b24a083d6f80df333c98398a38f"
+  },
+  "docs/api/README.md": {
+    "mtime": 1785210826.7246678,
+    "ast_hash": "24978570ec9ddbc7da6522a70ad5f685",
+    "semantic_hash": "24978570ec9ddbc7da6522a70ad5f685"
+  },
+  "docs/api/openapi.yaml": {
+    "mtime": 1785157452.5707688,
+    "ast_hash": "14810d625b2a7249578c9db070f182c7",
+    "semantic_hash": "14810d625b2a7249578c9db070f182c7"
+  },
+  "docs/api/redocly.yaml": {
+    "mtime": 1785157461.5150976,
+    "ast_hash": "94941a0e27dfcd1def9f58d4eef3a990",
+    "semantic_hash": "94941a0e27dfcd1def9f58d4eef3a990"
+  }
+}

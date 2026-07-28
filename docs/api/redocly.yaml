@@ -1,0 +1,17 @@
+# Lint config buat openapi.yaml di folder ini.
+#
+# Dua rule di "recommended" preset sengaja dimatikan karena gak relevan buat
+# dokumen kontrak internal (bukan API publik yang di-publish):
+# - info-license: gak ada license buat internal API contract.
+# - no-server-example.com: localhost:3001 emang satu-satunya environment
+#   yang ada sekarang (backend belum di-deploy ke mana pun).
+apis:
+  main:
+    root: openapi.yaml
+
+extends:
+  - recommended
+
+rules:
+  info-license: off
+  no-server-example.com: off

@@ -1,0 +1,426 @@
+openapi: 3.0.3
+info:
+  title: Ivy API
+  description: >
+    Kontrak REST API antara Ivy frontend (Vue, `apps/frontend`) dan backend
+    (Rust/Axum, belum diimplementasikan). Spec ini di-generate dari kontrak
+    yang sudah ditulis di frontend (`apps/frontend/src/lib/api.ts` dan
+    `apps/frontend/src/types/api/*.ts`) — backend wajib mengikuti bentuk
+    request/response di sini, bukan sebaliknya, supaya frontend yang sudah
+    ada gak perlu diubah lagi.
+
+    v1 self-hosted, single-user, no auth — lihat `.agents/rules/overview.md`.
+    Tidak ada Authorization header di request manapun.
+  version: "0.1.0"
+
+servers:
+  - url: http://localhost:3001
+    description: Local dev (default `VITE_API_BASE_URL` di frontend)
+
+security: []
+
+tags:
+  - name: targets
+    description: Target domain lifecycle
+  - name: scans
+    description: Passive/active recon scan sessions
+  - name: graph
+    description: Correlated attack-surface graph
+  - name: settings
+    description: LLM provider config
+
+paths:
+  /targets:
+    post:
+      operationId: createTarget
+      tags: [targets]
+      summary: Buat target baru
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTargetRequest"
+      responses:
+        "200":
+          description: Target berhasil dibuat
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Target"
+        "4XX":
+          $ref: "#/components/responses/Error"
+
+  /targets/{targetId}:
+    get:
+      operationId: getTarget
+      tags: [targets]
+      summary: Ambil detail target
+      parameters:
+        - $ref: "#/components/parameters/TargetId"
+      responses:
+        "200":
+          description: Target ditemukan
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Target"
+        "404":
+          $ref: "#/components/responses/Error"
+
+  /targets/{targetId}/scan/passive:
+    post:
+      operationId: startPassiveScan
+      tags: [scans]
+      summary: Mulai passive recon scan session
+      description: >
+        Human-in-the-loop: endpoint ini TIDAK BOLEH auto-escalate ke active
+        recon. Active recon cuma boleh dipicu lewat call terpisah ke
+        `/scan/active` setelah user consent eksplisit — lihat
+        `.agents/rules/overview.md`.
+      parameters:
+        - $ref: "#/components/parameters/TargetId"
+      responses:
+        "200":
+          description: Scan session dibuat (phase=passive)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScanSession"
+        "4XX":
+          $ref: "#/components/responses/Error"
+
+  /targets/{targetId}/scan/active:
+    post:
+      operationId: startActiveScan
+      tags: [scans]
+      summary: Mulai active recon scan session (butuh consent user sebelumnya)
+      parameters:
+        - $ref: "#/components/parameters/TargetId"
+      responses:
+        "200":
+          description: Scan session dibuat (phase=active)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScanSession"
+        "4XX":
+          $ref: "#/components/responses/Error"
+
+  /targets/{targetId}/scan/status:
+    get:
+      operationId: getScanStatus
+      tags: [scans]
+      summary: Ambil semua scan session (passive + active) untuk satu target
+      parameters:
+        - $ref: "#/components/parameters/TargetId"
+      responses:
+        "200":
+          description: Daftar scan session
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScanStatusResponse"
+        "4XX":
+          $ref: "#/components/responses/Error"
+
+  /targets/{targetId}/graph:
+    get:
+      operationId: getTargetGraph
+      tags: [graph]
+      summary: Ambil graph attack-surface hasil korelasi untuk satu target
+      description: >
+        Kosakata node label / edge type WAJIB konsisten dengan
+        `docs/Ivy_prd.md` §4.4 (Domain, Subdomain, IPAddress, Port, Service,
+        Technology, Vulnerability, Email, Certificate, URL /
+        HAS_SUBDOMAIN, RESOLVES_TO, HAS_PORT, RUNS_SERVICE, USES_TECHNOLOGY,
+        HAS_VULNERABILITY, ASSOCIATED_EMAIL, HAS_CERTIFICATE,
+        DISCOVERED_URL). Frontend Graph Canvas map warna/kategori node dari
+        `labels[0]` ini.
+      parameters:
+        - $ref: "#/components/parameters/TargetId"
+      responses:
+        "200":
+          description: Graph data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GraphData"
+        "4XX":
+          $ref: "#/components/responses/Error"
+
+  /settings/llm:
+    get:
+      operationId: getLlmConfig
+      tags: [settings]
+      summary: Ambil config LLM provider aktif
+      responses:
+        "200":
+          description: LLM config (api_key tidak pernah ikut di response)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LlmConfig"
+        "4XX":
+          $ref: "#/components/responses/Error"
+    put:
+      operationId: updateLlmConfig
+      tags: [settings]
+      summary: Update config LLM provider
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LlmConfigUpdate"
+      responses:
+        "200":
+          description: LLM config setelah update (api_key tidak di-echo balik)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LlmConfig"
+        "4XX":
+          $ref: "#/components/responses/Error"
+
+components:
+  parameters:
+    TargetId:
+      name: targetId
+      in: path
+      required: true
+      schema:
+        type: string
+
+  responses:
+    Error:
+      description: >
+        Error response. Bentuk body BELUM final secara kontrak — frontend
+        saat ini cuma baca response body sebagai text buat pesan error
+        (lihat `request()` di `apps/frontend/src/lib/api.ts`). Schema di
+        bawah ini saran, bukan kontrak yang sudah disepakati — diskusikan
+        dulu sama frontend dev sebelum dianggap final.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+  schemas:
+    Intensity:
+      type: string
+      enum: [passive, normal, aggressive]
+
+    ScopeConfig:
+      type: object
+      required: [intensity]
+      properties:
+        intensity:
+          $ref: "#/components/schemas/Intensity"
+      description: >
+        CATATAN buat backend dev: scope_config saat ini cuma nyimpen
+        intensity. Aturan in-scope/out-of-scope domain yang disebut di
+        `.agents/rules/overview.md` (langkah 1 — "target domain + scope,
+        in-scope/out-of-scope rules") BELUM punya field resmi di sini.
+        Jangan diimplementasikan asal nebak field-nya — flag ke frontend
+        dev dulu.
+
+    CreateTargetRequest:
+      type: object
+      required: [domain, scope_config]
+      properties:
+        domain:
+          type: string
+          example: acme.com
+        scope_config:
+          $ref: "#/components/schemas/ScopeConfig"
+
+    Target:
+      type: object
+      required: [id, domain, scope_config, created_at]
+      properties:
+        id:
+          type: string
+        domain:
+          type: string
+        scope_config:
+          $ref: "#/components/schemas/ScopeConfig"
+        created_at:
+          type: string
+          format: date-time
+
+    ScanPhase:
+      type: string
+      enum: [passive, active]
+
+    ScanStatus:
+      type: string
+      enum: [pending, running, completed, failed]
+
+    ToolStatus:
+      type: string
+      enum: [queued, running, completed, failed]
+
+    ToolExecution:
+      type: object
+      required: [id, tool_id, status, result_summary, error_message]
+      properties:
+        id:
+          type: string
+        tool_id:
+          type: string
+          description: Nama MCP tool, lihat `docs/Ivy_prd.md` §6.2.
+          example: ivy_amass
+        status:
+          $ref: "#/components/schemas/ToolStatus"
+        result_summary:
+          type: object
+          nullable: true
+          additionalProperties: true
+        error_message:
+          type: string
+          nullable: true
+
+    ScanSession:
+      type: object
+      required: [id, phase, status, created_at, completed_at, tool_executions]
+      properties:
+        id:
+          type: string
+        phase:
+          $ref: "#/components/schemas/ScanPhase"
+        status:
+          $ref: "#/components/schemas/ScanStatus"
+        created_at:
+          type: string
+          format: date-time
+        completed_at:
+          type: string
+          format: date-time
+          nullable: true
+        tool_executions:
+          type: array
+          items:
+            $ref: "#/components/schemas/ToolExecution"
+        proposed_active_tools:
+          type: array
+          items:
+            type: string
+          description: >
+            ASUMSI dari sisi frontend, BELUM dikonfirmasi backend: daftar
+            tools yang AI mau jalankan di fase active, dikirim begitu
+            passive session selesai, supaya consent gate ada sesuatu yang
+            konkret buat ditampilkan ke user sebelum mereka approve active
+            recon. Optional. Reconcile shape-nya begitu backend punya
+            rencana sendiri — jangan diimplementasikan buta-buta cuma
+            karena ada di sini.
+
+    ScanStatusResponse:
+      type: object
+      required: [sessions]
+      properties:
+        sessions:
+          type: array
+          items:
+            $ref: "#/components/schemas/ScanSession"
+
+    GraphNode:
+      type: object
+      required: [id, labels, properties]
+      properties:
+        id:
+          type: string
+        labels:
+          type: array
+          items:
+            type: string
+          description: >
+            Neo4j-style labels. Frontend cuma pakai `labels[0]` buat
+            menentukan tipe node, jadi urutan label pertama penting.
+          example: ["Subdomain"]
+        properties:
+          type: object
+          additionalProperties: true
+          description: >
+            Free-form per label — lihat `docs/Ivy_prd.md` §4.4 tabel Graph
+            Nodes buat property yang diharapkan per tipe (mis. Domain:
+            name/registrar/creation_date/expiry_date).
+
+    GraphEdge:
+      type: object
+      required: [id, source_id, target_id, type, properties]
+      properties:
+        id:
+          type: string
+        source_id:
+          type: string
+        target_id:
+          type: string
+        type:
+          type: string
+          description: >
+            Relationship type — lihat `docs/Ivy_prd.md` §4.4 tabel Graph
+            Edges (HAS_SUBDOMAIN, RESOLVES_TO, HAS_PORT, RUNS_SERVICE,
+            USES_TECHNOLOGY, HAS_VULNERABILITY, ASSOCIATED_EMAIL,
+            HAS_CERTIFICATE, DISCOVERED_URL).
+          example: RESOLVES_TO
+        properties:
+          type: object
+          additionalProperties: true
+
+    GraphData:
+      type: object
+      required: [nodes, edges]
+      properties:
+        nodes:
+          type: array
+          items:
+            $ref: "#/components/schemas/GraphNode"
+        edges:
+          type: array
+          items:
+            $ref: "#/components/schemas/GraphEdge"
+
+    LlmProvider:
+      type: string
+      enum: [claude, gemini, ollama]
+
+    LlmConfig:
+      type: object
+      required: [provider, model_name, endpoint_url]
+      properties:
+        provider:
+          $ref: "#/components/schemas/LlmProvider"
+        model_name:
+          type: string
+          nullable: true
+        endpoint_url:
+          type: string
+          nullable: true
+          description: Dipakai untuk provider local/self-hosted seperti Ollama.
+
+    LlmConfigUpdate:
+      type: object
+      required: [provider, api_key]
+      properties:
+        provider:
+          $ref: "#/components/schemas/LlmProvider"
+        model_name:
+          type: string
+        api_key:
+          type: string
+          description: >
+            Write-only. Backend TIDAK BOLEH pernah nge-echo field ini balik
+            di response manapun, termasuk `GET /settings/llm` setelahnya.
+        endpoint_url:
+          type: string
+
+    ErrorResponse:
+      type: object
+      description: >
+        Saran schema, BUKAN kontrak final — lihat catatan di
+        `components.responses.Error`.
+      properties:
+        error:
+          type: string
+        message:
+          type: string
