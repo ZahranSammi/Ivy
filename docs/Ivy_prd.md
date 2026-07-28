@@ -229,7 +229,7 @@ User memilih vulnerability dari graph, lalu AI menyarankan dan menjalankan paylo
 
 ╔═══════════════════════ FRONTEND LAYER ════════════════════════╗
 ║  🖥️ Web Dashboard        📊 Graph Visualizer    💻 Terminal  ║
-║  (React / Next.js)       (D3.js / Cytoscape)    (Live Stream)║
+║  (Vue 3 / Vite)          (D3.js / Cytoscape)    (Live Stream)║
 ╚════════════╤══════════════════╤══════════════════╤════════════╝
              │                  │                  │
              ▼                  │                  │
@@ -259,7 +259,7 @@ User memilih vulnerability dari graph, lalu AI menyarankan dan menjalankan paylo
 
 | Layer | Technology | Alasan |
 |-------|-----------|--------|
-| **Frontend** | Next.js + TypeScript | SSR, API routes, modern React |
+| **Frontend** | Vue 3 + Vite + TypeScript | SPA ringan, HMR cepat, Composition API — consume REST API dari backend Rust langsung (gak butuh SSR/API routes) |
 | **Graph Visualization** | Cytoscape.js / D3.js | Interactive graph rendering |
 | **AI/MCP** | MCP Protocol + LLM (Gemini/Claude) | AI orchestration via standardized protocol |
 | **Backend** | Rust (Axum) | Memory safety, zero-cost abstractions, performa tinggi tanpa GC |
@@ -522,7 +522,7 @@ By proceeding, you confirm that you have proper authorization.
 - [ ] 2 active recon tools (RustScan, httpx)
 - [ ] Neo4j graph database integration
 - [ ] Basic graph visualization (Cytoscape.js)
-- [ ] Web dashboard (Next.js) with AI chat
+- [ ] Web dashboard (Vue + Vite) with AI chat
 - [ ] Legal disclaimer & scope control
 
 ### Phase 2 — Core Features (Month 3-4)
